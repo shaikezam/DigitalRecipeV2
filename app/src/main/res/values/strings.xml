@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">DigitalRecipe</string>
+    <string name="user_name">User name</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="about">About</string>
+    <string name="email">Email address</string>
+
+    <string name="authentication_error">Authentication error</string>
+    <string name="fill_fields">Please fill all fields</string>
+    <string name="cant_found_user">Cant found user</string>
+    <string name="registration_error">Registration error</string>
+    <string name="user_duplicate">User name is not available</string>
+    <string name="success">Success</string>
+    <string name="registration_success">Registration success</string>
+    <string name="log_in_success">Log in success</string>
+    <string name="create_recipe">Create new recipe</string>
+    <string name="see_my_recipes">My recipes</string>
+    <string name="see_all_recipes">All users recipes</string>
+    <string name="see_top_rated_recipes">Top rated recipes</string>
+    <string name="log_out">Log out</string>
+    <string name="select_ingredient">Please select ingredient</string>
+
+    <string name="ingredient_prompt">Choose an ingredient</string>
+    <string name="submit_ingredient">Next</string>
+    <string name="recipe_name">Enter recipe name</string>
+    <string name="recipe_desc">Enter recipe instructions</string>
+    <string name="save_recipe">Save</string>
+    <string name="duplicate_ingredient_title">Duplicate ingredient</string>
+    <string name="duplicate_ingredient">Ingredient already exist, choose another or click NEXT</string>
+    <string name="missing_ingredient">Missing ingredient</string>
+    <string name="missing_data">Missing data</string>
+    <string name="init_data">Create Data</string>
+    <string name="missing_ingredient_desc">Please fill all ingredients texts fields</string>
+    <string name="recipe_registered">Success</string>
+    <string name="recipe_saved">The recipe is saved</string>
+    <string name="select_recipe">Please select a recipe</string>
+    <string name="rate_title">Error in rate</string>
+    <string name="rate_body">You can not rate your recipe</string>
+    <string name="made_by">Made By</string>
+    <string name="delete_data">Delete Data</string>
+    <string name="my_title">Digital Recipe Application</string>
+    <string name="my_body">Made by: Shay Zambrovski</string>
+
+    <string-array name="ingredient_arrays">
+        <item>Choose an ingredient</item>
+        <item>Alflfa</item>
+        <item>Anise</item>
+        <item>Apple</item>
+        <item>Basil</item>
+        <item>Bay</item>
+        <item>Black Pepper</item>
+        <item>Brown Sugar</item>
+        <item>Butter</item>
+        <item>Cacao</item>
+        <item>Caffeine</item>
+        <item>Egg</item>
+        <item>Water</item>
+        <item>Salt</item>
+        <item>Chicken</item>
+        <item>Biff</item>
+        <item>Pork</item>
+        <item>Oysters</item>
+        <item>Tomato</item>
+        <item>Mango</item>
+        <item>Chili</item>
+        <item>Suger</item>
+        <item>Chocolate</item>
+        <item>Whine</item>
+        <item>Beer</item>
+        <item>Fish</item>
+        <item>Potato</item>
+        <item>Sweet Potato</item>
+        <item>Cucumber</item>
+        <item>Oil</item>
+        <item>Olive Oil</item>
+        <item>Cheese</item>
+        <item>Mayonnaise</item>
+        <item>Ketchup</item>
+        <item>Flour</item>
+        <item>Breadcrumbs</item>
+        <item>Bread</item>
+
+
+    </string-array>
+
+</resources>
