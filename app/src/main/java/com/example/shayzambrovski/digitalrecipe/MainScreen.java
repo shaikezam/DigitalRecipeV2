@@ -10,6 +10,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+
+import java.util.concurrent.ExecutionException;
 
 public class MainScreen extends AppCompatActivity {
 
@@ -21,6 +25,7 @@ public class MainScreen extends AppCompatActivity {
     Button initData;
     Button deleteData;
     Bundle extras;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +39,14 @@ public class MainScreen extends AppCompatActivity {
 
 
         bindUI();
-
+        createDB();
     }
 
 
     public void bindUI() {
+        this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        final ProgressBar oProgressBar = this.progressBar;
+        oProgressBar.setVisibility(View.GONE);
         final Context oContext = this;
         this.userName = (EditText)findViewById(R.id.user_name_id);
 
@@ -112,14 +120,13 @@ public class MainScreen extends AppCompatActivity {
                 }
             }
         });
+
         this.about = (Button)findViewById(R.id.about_id);
         this.about.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try{
-                    //DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.my_title), getResources().getString(R.string.my_body));
-                    //dm.show();
-                    DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext);
-                    loader.execute();
+                    DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.my_title), getResources().getString(R.string.my_body));
+                    dm.show();
                 } catch(Exception e) {
                     Log.e("Error: ", e.toString());
                 }
@@ -166,5 +173,16 @@ public class MainScreen extends AppCompatActivity {
             }
         });
 
+    }
+    public void createDB() {
+        DatabaseHandlerV2 loader = new DatabaseHandlerV2(this, 0, this.progressBar, (RelativeLayout) findViewById(R.id.mainID));
+        try {
+            int s = (int)loader.execute().get();
+            Log.e("Error", String.valueOf(s));
+        } catch (InterruptedException e) {
+            Log.e("Error", e.toString());
+        } catch (ExecutionException e) {
+            Log.e("Error", e.toString());
+        }
     }
 }
