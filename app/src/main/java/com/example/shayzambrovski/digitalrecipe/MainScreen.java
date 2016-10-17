@@ -31,9 +31,13 @@ public class MainScreen extends AppCompatActivity {
         view.startAnimation(mLoadAnimation);
         extras = new Bundle();
 
+
+
         bindUI();
 
     }
+
+
     public void bindUI() {
         final Context oContext = this;
         this.userName = (EditText)findViewById(R.id.user_name_id);
@@ -112,8 +116,10 @@ public class MainScreen extends AppCompatActivity {
         this.about.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try{
-                    DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.my_title), getResources().getString(R.string.my_body));
-                    dm.show();
+                    //DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.my_title), getResources().getString(R.string.my_body));
+                    //dm.show();
+                    DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext);
+                    loader.execute();
                 } catch(Exception e) {
                     Log.e("Error: ", e.toString());
                 }

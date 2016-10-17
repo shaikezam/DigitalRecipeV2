@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DigitalRecipe</string>
+    <string name="app_name">DigitalRecipeV2</string>
     <string name="user_name">User name</string>
     <string name="register">Register</string>
     <string name="password">Password</string>
