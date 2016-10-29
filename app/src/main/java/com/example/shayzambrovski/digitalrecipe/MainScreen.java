@@ -103,7 +103,7 @@ public class MainScreen extends AppCompatActivity {
 
                     } else {
 
-                        DatabaseHandlerV2 loader1 = new DatabaseHandlerV2(oContext, 1, oProgressBar, (RelativeLayout) findViewById(R.id.mainID),new User(sUserName, sPassword));
+                        DatabaseHandlerV2 loader1 = new DatabaseHandlerV2(oContext, 1, oProgressBar, (RelativeLayout) findViewById(R.id.mainID),new User(sUserName, sPassword), null);
                         try {
                             int number = (int)loader1.execute().get();
                             if(number == -1) { // duplicate user name
@@ -149,7 +149,7 @@ public class MainScreen extends AppCompatActivity {
         this.deleteData.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { // delete all data
                 try{
-                    DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 2, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null);
+                    DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 2, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null, null);
                     try {
                         int number = (int)loader.execute().get();
                         //Log.e("Error", String.valueOf(number));
@@ -172,7 +172,56 @@ public class MainScreen extends AppCompatActivity {
         this.initData.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try{ // create 2 users with 1 recipe each
-                    DatabaseHandler db = new DatabaseHandler(oContext);
+                    createDB();
+                    DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 1, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), (new User("Shay", "123")), null);
+                    try {
+                        int number = (int)loader.execute().get();
+                        //Log.e("Error", String.valueOf(number));
+                    } catch (InterruptedException e) {
+                        Log.e("Error", e.toString());
+                    } catch (ExecutionException e) {
+                        Log.e("Error", e.toString());
+                    }
+                    loader = new DatabaseHandlerV2(oContext, 1, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), (new User("Arnon", "123")), null);
+                    try {
+                        int number = (int)loader.execute().get();
+                        //Log.e("Error", String.valueOf(number));
+                    } catch (InterruptedException e) {
+                        Log.e("Error", e.toString());
+                    } catch (ExecutionException e) {
+                        Log.e("Error", e.toString());
+                    }
+                    loader = new DatabaseHandlerV2(oContext, 3, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null, new Recipe("Banana Bread", "Mix well by hand until all ingredients are just moistened.\nPour into greased loaf pan and bake 55-65 minutes.\nRemove from pan and cool before slicing.",
+                            "Flour@2.5 cups@Suger@1 cup@baking powder@3.5 teaspoons@salt@1 teaspoon@vegetable oil@3 tablespoons@milk@0.75 cup@egg@1@banana@3",
+                            "Shay", 1, 1));
+                    try {
+                        int number = (int)loader.execute().get();
+                        //Log.e("Error", String.valueOf(number));
+                    } catch (InterruptedException e) {
+                        Log.e("Error", e.toString());
+                    } catch (ExecutionException e) {
+                        Log.e("Error", e.toString());
+                    }
+                    loader = new DatabaseHandlerV2(oContext, 3, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null, new Recipe("Apple Pie", "Preheat oven to 425°F / 220°C\n" +
+                            "For the filling: mix ingredients together just before filling pie crust, dot top of apple mixture with 2 tablespoons of cold butter cubed.\n" +
+                            "For the crust:\n" +
+                            "Measure flour, salt, sugar, shortening, and butter into a bowl and cut with pastry cutter until bits are no larger than size of a pea.\n" +
+                            "Sprinkle water over top and fold mixture until dough sticks together.\n" +
+                            "Divide dough into two pieces and roll out for pie top and bottom.\n" +
+                            "Fill with apples and top with 2nd piece of dough, making a design of some sort for steam to escape.\n" +
+                            "Bake for 40-50 minutes until crust is golden and filling begins to bubble through the crust.",
+                            "Flour@2 cups@Suger@1 tablespoon@unsalted butter cold@3 tablespoons@ice water@4 tablespoons@apples thinly sliced@6@cinnamon@0.5 tablespoon@lemon juice@2 teaspoons@baking powder@3.5 teaspoons@salt@1 teaspoon@vegetable oil@3 tablespoons@milk@0.75 cup@egg@1@banana@3",
+                            "Arnon", 2, 2));
+                    try {
+                        int number = (int)loader.execute().get();
+                        //Log.e("Error", String.valueOf(number));
+                    } catch (InterruptedException e) {
+                        Log.e("Error", e.toString());
+                    } catch (ExecutionException e) {
+                        Log.e("Error", e.toString());
+                    }
+
+                    /*DatabaseHandler db = new DatabaseHandler(oContext);
                     db.addUser((new User("Shay", "123")));
                     db.addUser((new User("Arnon", "123")));
                     db.addRecipe(new Recipe("Banana Bread", "Mix well by hand until all ingredients are just moistened.\nPour into greased loaf pan and bake 55-65 minutes.\nRemove from pan and cool before slicing.",
@@ -187,7 +236,7 @@ public class MainScreen extends AppCompatActivity {
                             "Fill with apples and top with 2nd piece of dough, making a design of some sort for steam to escape.\n" +
                             "Bake for 40-50 minutes until crust is golden and filling begins to bubble through the crust.",
                             "Flour@2 cups@Suger@1 tablespoon@unsalted butter cold@3 tablespoons@ice water@4 tablespoons@apples thinly sliced@6@cinnamon@0.5 tablespoon@lemon juice@2 teaspoons@baking powder@3.5 teaspoons@salt@1 teaspoon@vegetable oil@3 tablespoons@milk@0.75 cup@egg@1@banana@3",
-                            "Arnon", 2, 2));
+                            "Arnon", 2, 2));*/
                 } catch(Exception e) {
                     Log.e("Error: ", e.toString());
                 }
@@ -196,7 +245,7 @@ public class MainScreen extends AppCompatActivity {
 
     }
     public void createDB() {
-        DatabaseHandlerV2 loader = new DatabaseHandlerV2(this, 0, this.progressBar, (RelativeLayout) findViewById(R.id.mainID), null);
+        DatabaseHandlerV2 loader = new DatabaseHandlerV2(this, 0, this.progressBar, (RelativeLayout) findViewById(R.id.mainID), null, null);
         try {
             int number = (int)loader.execute().get();
             //Log.e("Error", String.valueOf(number));

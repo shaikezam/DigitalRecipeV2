@@ -24,13 +24,15 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
     ProgressBar oProgressBar;
     RelativeLayout oLayout;
     User user;
+    Recipe recipe;
 
-    public DatabaseHandlerV2(Context oContext, int flag, ProgressBar oProgressBar, RelativeLayout oLayout, User user){
+    public DatabaseHandlerV2(Context oContext, int flag, ProgressBar oProgressBar, RelativeLayout oLayout, User user, Recipe recipe){
         this.oContext = oContext;
         this.flag = flag;
         this.oProgressBar = oProgressBar;
         this.oLayout = oLayout;
         this.user = user;
+        this.recipe = recipe;
         //Log.e("Error: ", String.valueOf(this.flag));
     }
 
@@ -49,15 +51,15 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-                    //Log.e("Error", sb.toString());
+                    Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {
                     urlConnection.disconnect();
                 }
             } else if(this.flag == 1) { //create user
-                String userName = this.user.getUserName();
-                String password = this.user.getPassword();
+                String userName = this.user.getUserName().replace(" ", "%20");
+                String password = this.user.getPassword().replace(" ", "%20");
                 String link = "http://digitalrecipev2.96.lt/createNewUser.php?userName=" + userName +"&userPassword="+password;
                 URL url = new URL(link);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -71,16 +73,40 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     if(!sb.toString().equals("User register")) {
                         returnResult = -1;
                     }
-                    //Log.e("Error", sb.toString());
+                    Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {
                     urlConnection.disconnect();
                 }
-            } else if(this.flag == 2) { //create user
+            } else if(this.flag == 2) { //delete DB
                 String link = "http://digitalrecipev2.96.lt/deleteDB.php";
                 URL url = new URL(link);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
+                    }
+                    Log.e("Error", sb.toString());
+                } catch(Exception e) {
+                    Log.e("Error", e.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
+            } else if(this.flag == 3) { //create recipe
+                String recipeName = this.recipe.getName().replace(" ", "%20");;
+                String recipeIngredients = this.recipe.getIngredients().replace(" ", "%20");
+                String recipeInstructions = this.recipe.getInstructions().replace(" ", "%20").replace("\n", "%0A");;
+                String recipeUserName = this.recipe.getUserName().replace(" ", "%20");
+                int recipeRate = this.recipe.getRate();
+                int recipeAmountOfRate = this.recipe.getAmountOfRates();
+                String link = "http://digitalrecipev2.96.lt/createRecipe.php?recipeName="+recipeName+"&recipeIngredients="+recipeIngredients+"&recipeInstructions="+recipeInstructions+"&recipeUserName="+recipeUserName+"&recipeRate="+recipeRate+"&recipeAmountOfRate="+recipeAmountOfRate;
+                URL url = new URL(link);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setChunkedStreamingMode(0);
                 try {
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                     int ch;
