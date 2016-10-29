@@ -25,14 +25,18 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
     RelativeLayout oLayout;
     User user;
     Recipe recipe;
+    String sPassword;
+    String sUserName;
 
-    public DatabaseHandlerV2(Context oContext, int flag, ProgressBar oProgressBar, RelativeLayout oLayout, User user, Recipe recipe){
+    public DatabaseHandlerV2(Context oContext, int flag, ProgressBar oProgressBar, RelativeLayout oLayout, User user, Recipe recipe, String sUserName, String sPassword){
         this.oContext = oContext;
         this.flag = flag;
         this.oProgressBar = oProgressBar;
         this.oLayout = oLayout;
         this.user = user;
         this.recipe = recipe;
+        this.sPassword = sPassword;
+        this.sUserName = sUserName;
         //Log.e("Error: ", String.valueOf(this.flag));
     }
 
@@ -51,7 +55,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-                    Log.e("Error", sb.toString());
+                    //Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {
@@ -73,7 +77,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     if(!sb.toString().equals("User register")) {
                         returnResult = -1;
                     }
-                    Log.e("Error", sb.toString());
+                    //Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {
@@ -90,7 +94,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-                    Log.e("Error", sb.toString());
+                    //Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {
@@ -114,7 +118,32 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-                    Log.e("Error", sb.toString());
+                    //Log.e("Error", sb.toString());
+                } catch(Exception e) {
+                    Log.e("Error", e.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
+            } else if(this.flag == 4) { //Log In
+                String userName = this.sUserName;
+                String password = this.sPassword;
+                String link = "http://digitalrecipev2.96.lt/logIn.php?userName=" + userName +"&userPassword="+password;
+                URL url = new URL(link);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setChunkedStreamingMode(0);
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
+                    }
+                    if(sb.toString().replace("\t","").equals("User isnt found")) {
+                        returnResult = -1;
+                    } else {
+                        returnResult = 1;
+                    }
+                    //Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {
