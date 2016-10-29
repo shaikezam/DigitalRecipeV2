@@ -2,7 +2,6 @@ package com.example.shayzambrovski.digitalrecipe;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -32,7 +31,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
         this.oProgressBar = oProgressBar;
         this.oLayout = oLayout;
         this.user = user;
-        Log.e("Error: ", String.valueOf(this.flag));
+        //Log.e("Error: ", String.valueOf(this.flag));
     }
 
     @Override
@@ -50,7 +49,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-                    Log.e("Error", sb.toString());
+                    //Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {
@@ -71,6 +70,23 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     }
                     if(!sb.toString().equals("User register")) {
                         returnResult = -1;
+                    }
+                    //Log.e("Error", sb.toString());
+                } catch(Exception e) {
+                    Log.e("Error", e.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
+            } else if(this.flag == 2) { //create user
+                String link = "http://digitalrecipev2.96.lt/deleteDB.php";
+                URL url = new URL(link);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
                     }
                     Log.e("Error", sb.toString());
                 } catch(Exception e) {

@@ -110,11 +110,10 @@ public class MainScreen extends AppCompatActivity {
                                 DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.registration_error), getResources().getString(R.string.user_duplicate));
                                 dm.show();
                             } else {
-
                                 DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.success),sUserName + ": " + getResources().getString(R.string.registration_success));
                                 dm.show();
                             }
-                            Log.e("Error", String.valueOf(number));
+                            //Log.e("Error", String.valueOf(number));
                         } catch (InterruptedException e) {
                             Log.e("Error", e.toString());
                         } catch (ExecutionException e) {
@@ -150,10 +149,19 @@ public class MainScreen extends AppCompatActivity {
         this.deleteData.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { // delete all data
                 try{
-                    DatabaseHandler db = new DatabaseHandler(oContext);
+                    DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 2, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null);
+                    try {
+                        int number = (int)loader.execute().get();
+                        //Log.e("Error", String.valueOf(number));
+                    } catch (InterruptedException e) {
+                        Log.e("Error", e.toString());
+                    } catch (ExecutionException e) {
+                        Log.e("Error", e.toString());
+                    }
+                    //DatabaseHandler db = new DatabaseHandler(oContext);
                     //Intent myIntent = new Intent(MainScreen.this, AboutScreen.class);
                     //startActivity(myIntent);
-                    db.deleteDB();
+                    //db.deleteDB();
                 } catch(Exception e) {
                     Log.e("Error: ", e.toString());
                 }
@@ -190,8 +198,8 @@ public class MainScreen extends AppCompatActivity {
     public void createDB() {
         DatabaseHandlerV2 loader = new DatabaseHandlerV2(this, 0, this.progressBar, (RelativeLayout) findViewById(R.id.mainID), null);
         try {
-            int s = (int)loader.execute().get();
-            Log.e("Error", String.valueOf(s));
+            int number = (int)loader.execute().get();
+            //Log.e("Error", String.valueOf(number));
         } catch (InterruptedException e) {
             Log.e("Error", e.toString());
         } catch (ExecutionException e) {
