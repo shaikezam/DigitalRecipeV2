@@ -102,15 +102,27 @@ public class MainScreen extends AppCompatActivity {
                         dm.show();
 
                     } else {
-                        long number = db.addUser(new User(sUserName, sPassword));
-                        if(number == -1) { // duplicate user name
-                            DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.registration_error), getResources().getString(R.string.user_duplicate));
-                            dm.show();
-                        } else {
 
-                            DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.success),sUserName + ": " + getResources().getString(R.string.registration_success));
-                            dm.show();
+                        DatabaseHandlerV2 loader1 = new DatabaseHandlerV2(oContext, 1, oProgressBar, (RelativeLayout) findViewById(R.id.mainID),new User(sUserName, sPassword));
+                        try {
+                            int number = (int)loader1.execute().get();
+                            if(number == -1) { // duplicate user name
+                                DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.registration_error), getResources().getString(R.string.user_duplicate));
+                                dm.show();
+                            } else {
+
+                                DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.success),sUserName + ": " + getResources().getString(R.string.registration_success));
+                                dm.show();
+                            }
+                            Log.e("Error", String.valueOf(number));
+                        } catch (InterruptedException e) {
+                            Log.e("Error", e.toString());
+                        } catch (ExecutionException e) {
+                            Log.e("Error", e.toString());
                         }
+
+                        //long number = db.addUser(new User(sUserName, sPassword));
+
                     }
 
                     //Intent myIntent = new Intent(MainScreen.this, RegisterScreen.class);
@@ -125,6 +137,7 @@ public class MainScreen extends AppCompatActivity {
         this.about.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try{
+                    createDB();
                     DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.my_title), getResources().getString(R.string.my_body));
                     dm.show();
                 } catch(Exception e) {
@@ -175,7 +188,7 @@ public class MainScreen extends AppCompatActivity {
 
     }
     public void createDB() {
-        DatabaseHandlerV2 loader = new DatabaseHandlerV2(this, 0, this.progressBar, (RelativeLayout) findViewById(R.id.mainID));
+        DatabaseHandlerV2 loader = new DatabaseHandlerV2(this, 0, this.progressBar, (RelativeLayout) findViewById(R.id.mainID), null);
         try {
             int s = (int)loader.execute().get();
             Log.e("Error", String.valueOf(s));
