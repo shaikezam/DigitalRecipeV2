@@ -11,15 +11,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MyRecipes extends AppCompatActivity {
 
     Spinner spinner;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +46,19 @@ public class MyRecipes extends AppCompatActivity {
     }
     public void bindUI(final String sUserName) {
         try {
+            this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            final ProgressBar oProgressBar = this.progressBar;
+            oProgressBar.setVisibility(View.GONE);
             final Context oContext = this;
             DatabaseHandler db = new DatabaseHandler(oContext);
-            final List<Recipe> recipeList = db.getRecipesByUserName(sUserName);
+            //final List<Recipe> recipeList = db.getRecipesByUserName(sUserName);
+
+            DatabaseHandlerV3 loader = new DatabaseHandlerV3(oContext, 0, oProgressBar, (RelativeLayout) findViewById(R.id.shaike), sUserName);
+            try {
+                final List<Recipe> recipeList = (List<Recipe>)loader.execute().get();
+                //Log.e("Error", String.valueOf(number));
+
+
             String myRecipesNames[] = new String[recipeList.size() + 1];
             myRecipesNames[0] = getResources().getString(R.string.select_recipe);
             for(int i = 1 ; i < recipeList.size() + 1 ; i++) {
@@ -101,6 +115,12 @@ public class MyRecipes extends AppCompatActivity {
                 }
 
             });
+
+            } catch (InterruptedException e) {
+                Log.e("Error", e.toString());
+            } catch (ExecutionException e) {
+                Log.e("Error", e.toString());
+            }
 
         }catch(Exception e) {
             Log.e("Error: ", e.toString());

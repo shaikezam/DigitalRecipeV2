@@ -149,6 +149,30 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                 } finally {
                     urlConnection.disconnect();
                 }
+            } else if(this.flag == 5) { //Log In
+                String recipeName = this.recipe.getName().replace(" ", "%20");;
+                String recipeIngredients = this.recipe.getIngredients().replace(" ", "%20");
+                String recipeInstructions = this.recipe.getInstructions().replace(" ", "%20").replace("\n", "%0A");;
+                String recipeUserName = this.recipe.getUserName().replace(" ", "%20");
+                int recipeRate = this.recipe.getRate();
+                int recipeAmountOfRate = this.recipe.getAmountOfRates();
+                String link = "http://digitalrecipev2.96.lt/createRecipe.php?recipeName="+recipeName+"&recipeIngredients="+recipeIngredients+"&recipeInstructions="+recipeInstructions+"&recipeUserName="+recipeUserName+"&recipeRate="+recipeRate+"&recipeAmountOfRate="+recipeAmountOfRate;
+                URL url = new URL(link);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setChunkedStreamingMode(0);
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
+                    }
+                    Log.e("Error", sb.toString());
+                } catch(Exception e) {
+                    Log.e("Error", e.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
             }
         }
         catch(Exception e){

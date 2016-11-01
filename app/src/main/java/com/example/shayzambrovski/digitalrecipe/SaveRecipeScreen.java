@@ -10,13 +10,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class SaveRecipeScreen extends AppCompatActivity {
     EditText name;
     EditText description;
     Button save;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,9 @@ public class SaveRecipeScreen extends AppCompatActivity {
         bindUI(sUserName, sIngredients);
     }
     public void bindUI(final String sUserName, final String sIngredients) {
+        this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        final ProgressBar oProgressBar = this.progressBar;
+        oProgressBar.setVisibility(View.GONE);
         final Context oContext = this;
         this.name = (EditText)findViewById(R.id.recipe_name);
         this.description = (EditText)findViewById(R.id.recipe_desc);
@@ -49,7 +57,18 @@ public class SaveRecipeScreen extends AppCompatActivity {
                         dm.show();
                     }
                     else {
-                        long number = db.addRecipe(new Recipe(sName, sDescription, sIngredients, sUserName, 0, 0));
+
+                        DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 3, oProgressBar, (RelativeLayout) findViewById(R.id.shaike), null, new Recipe(sName, sDescription, sIngredients, sUserName, 0, 0), null, null);
+                        try {
+                            int number = (int)loader.execute().get();
+                            //Log.e("Error", String.valueOf(number));
+                        } catch (InterruptedException e) {
+                            Log.e("Error", e.toString());
+                        } catch (ExecutionException e) {
+                            Log.e("Error", e.toString());
+                        }
+
+                        //long number = db.addRecipe(new Recipe(sName, sDescription, sIngredients, sUserName, 0, 0));
                         //Log.e("Error :", String.valueOf(number));
                         Log.e("Error :", String.valueOf(db.getRecipeCount()));
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.recipe_saved),Toast.LENGTH_SHORT).show();

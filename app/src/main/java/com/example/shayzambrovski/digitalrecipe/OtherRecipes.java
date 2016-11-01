@@ -11,15 +11,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class OtherRecipes extends AppCompatActivity {
 
     Spinner spinner;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +46,19 @@ public class OtherRecipes extends AppCompatActivity {
     }
     public void bindUI(final String sUserName) {
         try {
+            this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            final ProgressBar oProgressBar = this.progressBar;
+            oProgressBar.setVisibility(View.GONE);
             final Context oContext = this;
-            final DatabaseHandler db = new DatabaseHandler(oContext);
-            final List<Recipe> recipeList = db.getRecipesByOtherUserName(sUserName);
+            //final DatabaseHandler db = new DatabaseHandler(oContext);
+
+            DatabaseHandlerV3 loader = new DatabaseHandlerV3(oContext, 1, oProgressBar, (RelativeLayout) findViewById(R.id.shaike), sUserName);
+
+            try {
+                final List<Recipe> recipeList = (List<Recipe>)loader.execute().get();
+                //Log.e("Error", String.valueOf(number));
+
+            //final List<Recipe> recipeList = db.getRecipesByOtherUserName(sUserName);
             String myRecipesNames[] = new String[recipeList.size() + 1];
             myRecipesNames[0] = getResources().getString(R.string.select_recipe);
             for(int i = 1 ; i < recipeList.size() + 1 ; i++) {
@@ -82,7 +96,18 @@ public class OtherRecipes extends AppCompatActivity {
                                 recipe.setRate(stars);
 
                                 Log.e("Error: ", String.valueOf(recipe.getRate()));
-                                db.updateRecipeRate(recipe.getName(), recipe.getRate(), recipe); //update rate in DB
+                                //db.updateRecipeRate(recipe.getName(), recipe.getRate(), recipe); //update rate in DB
+
+                                DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 3, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null, recipe, null, null);
+                                try {
+                                    int number = (int)loader.execute().get();
+                                    //Log.e("Error", String.valueOf(number));
+                                } catch (InterruptedException e) {
+                                    Log.e("Error", e.toString());
+                                } catch (ExecutionException e) {
+                                    Log.e("Error", e.toString());
+                                }
+
                                 RatingBar rBar = (RatingBar)v;
                                 rBar.setRating(recipe.getRate());
                             }
@@ -110,6 +135,12 @@ public class OtherRecipes extends AppCompatActivity {
                 }
 
             });
+
+            } catch (InterruptedException e) {
+                Log.e("Error", e.toString());
+            } catch (ExecutionException e) {
+                Log.e("Error", e.toString());
+            }
 
         }catch(Exception e) {
             Log.e("Error: ", e.toString());
