@@ -156,7 +156,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                 String recipeUserName = this.recipe.getUserName().replace(" ", "%20");
                 int recipeRate = this.recipe.getRate();
                 int recipeAmountOfRate = this.recipe.getAmountOfRates();
-                String link = "http://digitalrecipev2.96.lt/createRecipe.php?recipeName="+recipeName+"&recipeIngredients="+recipeIngredients+"&recipeInstructions="+recipeInstructions+"&recipeUserName="+recipeUserName+"&recipeRate="+recipeRate+"&recipeAmountOfRate="+recipeAmountOfRate;
+                String link = "http://digitalrecipev2.96.lt/updateRate.php?recipeName="+recipeName+"&recipeIngredients="+recipeIngredients+"&recipeInstructions="+recipeInstructions+"&recipeUserName="+recipeUserName+"&recipeRate="+recipeRate+"&recipeAmountOfRate="+recipeAmountOfRate;
                 URL url = new URL(link);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setChunkedStreamingMode(0);

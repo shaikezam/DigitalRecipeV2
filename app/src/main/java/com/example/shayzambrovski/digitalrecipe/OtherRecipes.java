@@ -94,11 +94,12 @@ public class OtherRecipes extends AppCompatActivity {
                                 float starsf = (touchPositionX / width) * 5.0f;
                                 int stars = (int)starsf + 1;
                                 recipe.setRate(stars);
+                                //recipe.setAmountOfRates(recipe.getAmountOfRates() + 1);
 
                                 Log.e("Error: ", String.valueOf(recipe.getRate()));
                                 //db.updateRecipeRate(recipe.getName(), recipe.getRate(), recipe); //update rate in DB
 
-                                DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 3, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null, recipe, null, null);
+                                DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 5, oProgressBar, (RelativeLayout) findViewById(R.id.shaike), null, recipe, null, null);
                                 try {
                                     int number = (int)loader.execute().get();
                                     //Log.e("Error", String.valueOf(number));
