@@ -49,6 +49,14 @@
         android:rating="0.0"
         android:layout_below="@+id/spinner1"
         android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/share"
+        android:id="@+id/shareButton"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toStartOf="@+id/my_rate_bar"
+        android:visibility="invisible"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

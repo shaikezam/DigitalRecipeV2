@@ -1,6 +1,7 @@
 package com.example.shayzambrovski.digitalrecipe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -24,6 +26,7 @@ public class OtherRecipes extends AppCompatActivity {
 
     Spinner spinner;
     ProgressBar progressBar;
+    ImageView oButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class OtherRecipes extends AppCompatActivity {
     }
     public void bindUI(final String sUserName) {
         try {
+            this.oButton = (ImageView) findViewById(R.id.shareButton);
+            final ImageView myButton = this.oButton;
             this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
             final ProgressBar oProgressBar = this.progressBar;
             oProgressBar.setVisibility(View.GONE);
@@ -77,7 +82,7 @@ public class OtherRecipes extends AppCompatActivity {
                     String selectedText = parent.getItemAtPosition(pos).toString();
                     if(selectedText.equals(getResources().getString(R.string.select_recipe)))
                         return;
-
+                    myButton.setVisibility(View.VISIBLE);
                     RatingBar ratingBar = (RatingBar)findViewById(R.id.my_rate_bar);
                     final Recipe recipe = recipeList.get(pos - 1);
                     final int numOfStars = recipeList.get(pos - 1).getRate();
@@ -129,6 +134,29 @@ public class OtherRecipes extends AppCompatActivity {
                     ListView listView = (ListView)findViewById(R.id.myListView);
                     listView.setTextFilterEnabled(true);
                     listView.setAdapter(new ArrayAdapter<String>(oContext, R.layout.my_item,myIngredients));
+
+                    final String[] ingredients = myIngredients;
+                    final String recipeName = selectedText;
+
+                    myButton.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            try {
+                                String shareBody = recipeName + "\n\nIngredients:\n";
+                                for(int i = 0 ; i < ingredients.length - 1 ; i++) {
+                                    shareBody += ingredients[i] + "\n";
+                                }
+                                shareBody += "\nInstructions:\n" + ingredients[ingredients.length - 1];
+                                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                sharingIntent.setType("text/plain");
+                                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, recipeName);
+                                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                                startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
+
+                            } catch(Exception e) {
+                                Log.e("Error: ", e.toString());
+                            }
+                        }
+                    });
                 }
 
                 public void onNothingSelected(AdapterView<?> parentView) {
