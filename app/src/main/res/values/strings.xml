@@ -6,6 +6,7 @@
     <string name="log_in">Log in</string>
     <string name="about">About</string>
     <string name="email">Email address</string>
+    <string name="share">Share this recipe</string>
 
     <string name="authentication_error">Authentication error</string>
     <string name="fill_fields">Please fill all fields</string>

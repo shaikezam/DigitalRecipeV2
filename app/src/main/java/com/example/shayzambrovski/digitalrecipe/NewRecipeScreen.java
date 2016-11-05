@@ -38,7 +38,7 @@ public class NewRecipeScreen extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String sUserName = extras.getString("key");
         relativeLayout = new RelativeLayout(this);
-        DatabaseHandler db = new DatabaseHandler(this);
+        //DatabaseHandler db = new DatabaseHandler(this);
         //Log.e("Error: ", sUserName);
         bindUI(sUserName);
     }

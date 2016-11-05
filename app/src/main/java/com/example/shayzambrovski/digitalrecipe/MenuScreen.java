@@ -32,7 +32,7 @@ public class MenuScreen extends AppCompatActivity {
         this.sUserName = extras.getString("key");
         final Context oContext = this;
 
-        DatabaseHandler db = new DatabaseHandler(oContext);
+        //DatabaseHandler db = new DatabaseHandler(oContext);
         Log.e("Error: ", sUserName);
         extras = new Bundle();
         bindUI(sUserName);

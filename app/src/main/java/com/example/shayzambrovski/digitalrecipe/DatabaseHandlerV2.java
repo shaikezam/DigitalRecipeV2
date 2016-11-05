@@ -138,7 +138,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-                    if(sb.toString().replace("\t","").equals("User isnt found")) {
+                    if(!sb.toString().replace("\t","").startsWith(this.sUserName)) {
                         returnResult = -1;
                     } else {
                         returnResult = 1;

@@ -13,7 +13,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+public class DatabaseHandlerV1 extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
@@ -37,7 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_RECIPE_RATE = "recipe_rate";
     private static final String KEY_AMOUNT_OF_RATES = "amount_of_rate";
 
-    public DatabaseHandler(Context context) {
+    public DatabaseHandlerV1(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         SQLiteDatabase db = this.getWritableDatabase();
