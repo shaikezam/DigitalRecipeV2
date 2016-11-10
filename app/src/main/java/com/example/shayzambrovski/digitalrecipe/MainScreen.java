@@ -35,12 +35,14 @@ public class MainScreen extends AppCompatActivity {
         mLoadAnimation.setDuration(1200);
         view.startAnimation(mLoadAnimation);
         extras = new Bundle();
-
+        //DatabaseHandler db = new DatabaseHandler(this);
+        //db.deleteDB();
         this.deleteDatabase("myAppDataBase");
 
 
 
         bindUI();
+        isLogIn();
         //createDB();
     }
 
@@ -146,18 +148,6 @@ public class MainScreen extends AppCompatActivity {
                 } catch(Exception e) {
                     Log.e("Error: ", e.toString());
                 }
-                try {
-
-                    String shareBody = "Here is the share content body";
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    sharingIntent.setType("text/plain");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                    startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.my_body)));
-
-                } catch(Exception e) {
-                    Log.e("Error: ", e.toString());
-                }
             }
         });
 
@@ -165,10 +155,6 @@ public class MainScreen extends AppCompatActivity {
         this.deleteData.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { // delete all data
                 try{
-
-                    //DatabaseHandler gg = new DatabaseHandler(oContext);
-                    //gg.deleteDB();
-
                     DatabaseHandlerV2 loader = new DatabaseHandlerV2(oContext, 2, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null, null, null, null);
                     try {
                         int number = (int)loader.execute().get();
@@ -256,6 +242,21 @@ public class MainScreen extends AppCompatActivity {
             Log.e("Error", e.toString());
         } catch (ExecutionException e) {
             Log.e("Error", e.toString());
+        }
+    }
+    public void isLogIn() {
+        try {
+            DatabaseHandler db = new DatabaseHandler(this);
+            String sUserName = db.getLogInUser();
+            if(sUserName != null) {
+                Intent myIntent = new Intent(MainScreen.this, MenuScreen.class);
+                myIntent.putExtra("key", sUserName); //Optional parameters
+                startActivity(myIntent);
+            } else {
+                return;
+            }
+        } catch(Exception e) {
+            Log.e("Error: ", e.toString());
         }
     }
 }

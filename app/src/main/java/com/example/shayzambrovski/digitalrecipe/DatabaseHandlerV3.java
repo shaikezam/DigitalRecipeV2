@@ -73,7 +73,7 @@ public class DatabaseHandlerV3 extends AsyncTask<Void,Void,List<Recipe>> {
                 } finally {
                     urlConnection.disconnect();
                 }
-            } else if(this.flag == 1) { //create tables
+            } else if(this.flag == 1) { //get other recipe
                 String link = "http://digitalrecipev2.96.lt/getOtherRecipes.php?userName=" + this.sUserName;
                 URL url = new URL(link);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

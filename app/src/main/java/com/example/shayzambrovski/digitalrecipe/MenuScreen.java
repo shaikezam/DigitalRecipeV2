@@ -30,14 +30,13 @@ public class MenuScreen extends AppCompatActivity {
         view.startAnimation(mLoadAnimation);
         Bundle extras = getIntent().getExtras();
         this.sUserName = extras.getString("key");
-        final Context oContext = this;
-
-        //DatabaseHandler db = new DatabaseHandler(oContext);
+        logInUser();
         Log.e("Error: ", sUserName);
         extras = new Bundle();
         bindUI(sUserName);
     }
     public void bindUI(final String sUserName) {
+        final Context oContext = this;
         this.createNewRecpie = (Button)findViewById(R.id.new_recipe);
 
         this.createNewRecpie.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +85,8 @@ public class MenuScreen extends AppCompatActivity {
             public void onClick(View v) { // log out (main activity)
                 try{
                     Log.e("Error: ", "Shay");
+                    DatabaseHandler db = new DatabaseHandler(oContext);
+                    Long results = db.logOutUser(sUserName);
                     Intent myIntent = new Intent(MenuScreen.this, MainScreen.class);
                     myIntent.putExtra("key", sUserName); //Optional parameters
                     startActivity(myIntent);
@@ -96,8 +97,23 @@ public class MenuScreen extends AppCompatActivity {
         });
     }
     public void onBackPressed(){
-        Intent myIntent = new Intent(MenuScreen.this, MenuScreen.class);
-        myIntent.putExtra("key", this.sUserName); //Optional parameters
-        startActivity(myIntent);
+        try {
+
+            Intent myIntent = new Intent(MenuScreen.this, MenuScreen.class);
+            myIntent.putExtra("key", this.sUserName); //Optional parameters
+            startActivity(myIntent);
+        } catch (Exception e) {
+            Log.e("Error: ", e.toString());
+        }
+
+    }
+
+    public void logInUser() {
+        try {
+            DatabaseHandler db = new DatabaseHandler(this);
+            Long results = db.logInUser(this.sUserName);
+        } catch (Exception e) {
+            Log.e("Error: ", e.toString());
+        }
     }
 }
