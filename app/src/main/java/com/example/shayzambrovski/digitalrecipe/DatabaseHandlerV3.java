@@ -106,6 +106,35 @@ public class DatabaseHandlerV3 extends AsyncTask<Void,Void,List<Recipe>> {
                 } finally {
                     urlConnection.disconnect();
                 }
+            } else if(this.flag == 2) { //get top recipes
+                String link = "http://digitalrecipev2.96.lt/sendTop10.php?";
+                URL url = new URL(link);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
+                    }
+                    String results = sb.toString().replace("\t","");
+                    String[] parts = results.split("\\^");
+                    for(int i = 0 ; i < parts.length ; i++) {
+                        Recipe tempRecipe = new Recipe();
+                        String[] recipeParts = parts[i].split("\\*");
+                        tempRecipe.setName(recipeParts[0]);
+                        tempRecipe.setIngredients("");
+                        tempRecipe.setInstructions("");
+                        tempRecipe.setRate(Integer.parseInt(recipeParts[1]));
+                        tempRecipe.setUserName(recipeParts[2]);
+                        tempRecipe.setAmountOfRates(0);
+                        recipeList.add(tempRecipe);
+                    }
+                } catch(Exception e) {
+                    Log.e("Error", e.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
             }
         }
         catch(Exception e){

@@ -24,6 +24,7 @@
         <activity android:name=".SaveRecipeScreen"></activity>
         <activity android:name=".MyRecipes"></activity>
         <activity android:name=".OtherRecipes"></activity>
+        <activity android:name=".TopRatedScreen"></activity>
     </application>
 
 </manifest>

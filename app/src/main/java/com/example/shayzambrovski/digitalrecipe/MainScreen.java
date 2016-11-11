@@ -226,6 +226,25 @@ public class MainScreen extends AppCompatActivity {
                     } catch (ExecutionException e) {
                         Log.e("Error", e.toString());
                     }
+                    loader = new DatabaseHandlerV2(oContext, 3, oProgressBar, (RelativeLayout) findViewById(R.id.mainID), null, new Recipe("Cream Scones", "Preheat oven to 425°F / 220°C\n" +
+                            "Place flour, baking powder, sugar, and salt in a large bowl - then whisk together.\n" +
+                            "Cut butter into flour mixture with pastry cutter or two knives until it looks like coarse meal with only a few larger butter lumps.\n" +
+                            "Add dried fruit and stir in heavy cream.\n" +
+                            "Knead the dough by hand until just combined.\n" +
+                            "Cut scones into 8 wedges or use decorative cutter.\n" +
+                            "Place scones on ungreased baking sheet.\n" +
+                            "Bake until scone tops are light brown, 12-15 minutes.\n" +
+                            "Cool on wire rack for 10 minutes.",
+                            "Flour@2 cups@Suger@3 tablespoon@unsalted butter cold@5 tablespoons@ice water@4 tablespoons@powder@1 tablespoon@salt@0.5 table spoon@dried fruit@0.5 cup@heavy cream@1 cup@sanding suger@2 tablespoonhs@",
+                            "Arnon", 5, 1), null, null);
+                    try {
+                        int number = (int)loader.execute().get();
+                        //Log.e("Error", String.valueOf(number));
+                    } catch (InterruptedException e) {
+                        Log.e("Error", e.toString());
+                    } catch (ExecutionException e) {
+                        Log.e("Error", e.toString());
+                    }
                 } catch(Exception e) {
                     Log.e("Error: ", e.toString());
                 }

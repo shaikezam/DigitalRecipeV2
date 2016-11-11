@@ -79,12 +79,25 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
+        this.topRatedrecipe = (Button)findViewById(R.id.see_top_rated_recipes);
+
+        this.topRatedrecipe.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { // log out (main activity)
+                try{
+                    Intent myIntent = new Intent(MenuScreen.this, TopRatedScreen.class);
+                    myIntent.putExtra("key", sUserName); //Optional parameters
+                    startActivity(myIntent);
+                } catch(Exception e) {
+                    Log.e("Error: ", e.toString());
+                }
+            }
+        });
+
         this.logOut = (Button)findViewById(R.id.log_out);
 
         this.logOut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { // log out (main activity)
                 try{
-                    Log.e("Error: ", "Shay");
                     DatabaseHandler db = new DatabaseHandler(oContext);
                     Long results = db.logOutUser(sUserName);
                     Intent myIntent = new Intent(MenuScreen.this, MainScreen.class);
