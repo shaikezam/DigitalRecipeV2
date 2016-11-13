@@ -1,5 +1,7 @@
 package com.example.shayzambrovski.digitalrecipe;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 public class MainScreen extends AppCompatActivity {
@@ -38,14 +42,34 @@ public class MainScreen extends AppCompatActivity {
         //DatabaseHandler db = new DatabaseHandler(this);
         //db.deleteDB();
         this.deleteDatabase("myAppDataBase");
-
-
-
+        try {
+            //setRecurringAlarm(this);
+        } catch(Exception e) {
+            Log.e("Error: ", e.toString());
+        }
         bindUI();
         isLogIn();
         //createDB();
     }
 
+    private void setRecurringAlarm(Context context) {
+
+        Calendar updateTime = Calendar.getInstance();
+        updateTime.setTimeZone(TimeZone.getDefault());
+        updateTime.set(Calendar.HOUR_OF_DAY, 12);
+        updateTime.set(Calendar.MINUTE, 30);
+        Intent downloader = new Intent(context, MyStartServiceReceiver.class);
+        downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), 5000, pendingIntent);
+
+        Log.d("MyActivity", "Set alarmManager.setRepeating to: " + updateTime.getTime().toLocaleString());
+
+    }
 
     public void bindUI() {
         this.progressBar = (ProgressBar) findViewById(R.id.progressBar);

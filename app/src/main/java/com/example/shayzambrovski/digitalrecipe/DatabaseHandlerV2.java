@@ -118,7 +118,7 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-                    //Log.e("Error", sb.toString());
+                    Log.e("Error", sb.toString());
                 } catch(Exception e) {
                     Log.e("Error", e.toString());
                 } finally {

@@ -25,6 +25,9 @@
         <activity android:name=".MyRecipes"></activity>
         <activity android:name=".OtherRecipes"></activity>
         <activity android:name=".TopRatedScreen"></activity>
+
+        <service android:name="MyService" ></service>
+        <receiver android:name="MyStartServiceReceiver" ></receiver>
     </application>
 
 </manifest>
