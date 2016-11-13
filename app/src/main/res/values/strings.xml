@@ -21,6 +21,7 @@
     <string name="see_all_recipes">All users recipes</string>
     <string name="see_top_rated_recipes">Top rated recipes</string>
     <string name="log_out">Log out</string>
+    <string name="saved">saved</string>
     <string name="select_ingredient">Please select ingredient</string>
 
     <string name="ingredient_prompt">Choose an ingredient</string>

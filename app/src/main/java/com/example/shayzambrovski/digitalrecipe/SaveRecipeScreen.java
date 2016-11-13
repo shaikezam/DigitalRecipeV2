@@ -1,8 +1,10 @@
 package com.example.shayzambrovski.digitalrecipe;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -68,15 +70,24 @@ public class SaveRecipeScreen extends AppCompatActivity {
                             Log.e("Error", e.toString());
                         }
 
-                        //long number = db.addRecipe(new Recipe(sName, sDescription, sIngredients, sUserName, 0, 0));
-                        //Log.e("Error :", String.valueOf(number));
-                        //Log.e("Error :", String.valueOf(db.getRecipeCount()));
+
+                        String sRecipeName = ((EditText)findViewById(R.id.recipe_name)).getText().toString();
+                        NotificationCompat.Builder builder =
+                                new NotificationCompat.Builder(oContext)
+                                        .setSmallIcon(R.drawable.app_logo)
+                                        .setContentTitle(getResources().getString(R.string.success))
+                                        .setContentText(sRecipeName + " " + getResources().getString(R.string.saved));
+
+                        // Add as notification
+                        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        manager.notify(0, builder.build());
+
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.recipe_saved),Toast.LENGTH_SHORT).show();
                         Intent myIntent = new Intent(SaveRecipeScreen.this, MenuScreen.class);
                         myIntent.putExtra("key", sUserName); //Optional parameters
                         startActivity(myIntent);
-                        //DialogManager dm = new DialogManager(oContext, getResources().getString(R.string.recipe_registered), getResources().getString(R.string.recipe_saved));
-                        //dm.show();
+
+
 
                     }
                     //Intent myIntent = new Intent(NewRecipeScreen.this, SaveRecipeScreen.class);
