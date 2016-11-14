@@ -23,6 +23,8 @@
     <string name="log_out">Log out</string>
     <string name="saved">saved</string>
     <string name="select_ingredient">Please select ingredient</string>
+    <string name="wow">WOW</string>
+    <string name="new_recipe">Check out the new recipes</string>
 
     <string name="ingredient_prompt">Choose an ingredient</string>
     <string name="submit_ingredient">Next</string>

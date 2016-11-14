@@ -173,6 +173,25 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
                 } finally {
                     urlConnection.disconnect();
                 }
+            } else if(this.flag == 6) { //Log In
+                String link = "http://digitalrecipev2.96.lt/getNewRecipes.php";
+                URL url = new URL(link);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setChunkedStreamingMode(0);
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
+                    }
+                    returnResult = Integer.parseInt((sb.toString()));
+                    Log.e("Error", sb.toString());
+                } catch(Exception e) {
+                    Log.e("Error", e.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
             }
         }
         catch(Exception e){
@@ -181,19 +200,28 @@ public class DatabaseHandlerV2 extends AsyncTask<Void,Void,Integer> {
         return returnResult;
     }
     protected void onPostExecute(Integer bitmap) {
-        for (int i = 0; i < oLayout.getChildCount(); i++) {
-            View child = oLayout.getChildAt(i);
-            child.setEnabled(true);
+        if (oLayout != null) {
+            for (int i = 0; i < oLayout.getChildCount(); i++) {
+                View child = oLayout.getChildAt(i);
+                child.setEnabled(true);
+            }
         }
         super.onPostExecute(bitmap);
-        oProgressBar.setVisibility(View.GONE);
+        if (oProgressBar != null) {
+            oProgressBar.setVisibility(View.GONE);
+        }
+
     }
     protected void onPreExecute() {
-        for (int i = 0; i < oLayout.getChildCount(); i++) {
-            View child = oLayout.getChildAt(i);
-            child.setEnabled(false);
+        if (oLayout != null) {
+            for (int i = 0; i < oLayout.getChildCount(); i++) {
+                View child = oLayout.getChildAt(i);
+                child.setEnabled(false);
+            }
         }
         super.onPreExecute();
-        this.oProgressBar.setVisibility(View.VISIBLE);
+        if (oProgressBar != null) {
+            oProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 }

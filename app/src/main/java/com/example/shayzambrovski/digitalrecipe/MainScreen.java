@@ -43,7 +43,7 @@ public class MainScreen extends AppCompatActivity {
         //db.deleteDB();
         this.deleteDatabase("myAppDataBase");
         try {
-            //setRecurringAlarm(this);
+            //setDataBaseListener(this);
         } catch(Exception e) {
             Log.e("Error: ", e.toString());
         }
@@ -52,7 +52,7 @@ public class MainScreen extends AppCompatActivity {
         //createDB();
     }
 
-    private void setRecurringAlarm(Context context) {
+    private void setDataBaseListener(Context context) {
 
         Calendar updateTime = Calendar.getInstance();
         updateTime.setTimeZone(TimeZone.getDefault());
