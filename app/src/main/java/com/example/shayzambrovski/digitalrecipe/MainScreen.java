@@ -43,7 +43,7 @@ public class MainScreen extends AppCompatActivity {
         //db.deleteDB();
         this.deleteDatabase("myAppDataBase");
         try {
-            //setDataBaseListener(this);
+            setDataBaseListener(this);
         } catch(Exception e) {
             Log.e("Error: ", e.toString());
         }
